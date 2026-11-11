@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoDrop Vendor</title>
+<meta name="robots" content="noindex">
+<style>
+  body { font-family: system-ui, sans-serif; display: flex; min-height: 100vh; margin: 0;
+         align-items: center; justify-content: center; text-align: center; background: #fafafa; color: #222; }
+  .box { padding: 24px; max-width: 360px; }
+  a.btn { display: block; margin: 12px 0; padding: 14px; border-radius: 10px; background: #111;
+          color: #fff; text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>GoDrop Vendor</h2>
+  <p id="msg">Taking you to the app store…</p>
+  <a class="btn" id="ios" href="https://apps.apple.com/ng/app/godrop-vendor/id6797347780">Download on the App Store</a>
+  <a class="btn" id="android" href="https://play.google.com/store/apps/details?id=com.qnetix.godropvendor">Get it on Google Play</a>
+</div>
+
+<script>
+(function () {
+  var IOS_URL = "https://apps.apple.com/ng/app/godrop-vendor/id6797347780";
+  var ANDROID_URL = "https://play.google.com/store/apps/details?id=com.qnetix.godropvendor";
+  var DESKTOP_URL = "https://naijagodrop.com";
+
+  var ua = navigator.userAgent || "";
+  var isAndroid = /android/i.test(ua);
+  var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+              (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); // iPadOS
+
+  // Pass a tracking source (?source=facebook or ?utm_source=facebook) to Google Play
+  var params = new URLSearchParams(location.search);
+  var source = params.get("source") || params.get("utm_source");
+  var androidTarget = ANDROID_URL;
+  if (source) {
+    androidTarget += "&referrer=" + encodeURIComponent("utm_source=" + source);
+  }
+
+  if (isAndroid) {
+    location.replace(androidTarget);
+  } else if (isIOS) {
+    location.replace(IOS_URL);
+  } else {
+    location.replace(DESKTOP_URL);
+  }
+
+  // If the redirect is blocked for any reason, the two buttons above still work.
+  setTimeout(function () {
+    document.getElementById("msg").textContent = "Choose your store:";
+  }, 2500);
+})();
+</script>
+</body>
+</html>
